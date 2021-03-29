@@ -1,6 +1,6 @@
 import blessed from 'blessed'
 
-export default class ComponentBuilder {
+export default class ComponentsBuilder {
     #screen
     #layout
     #input
@@ -16,30 +16,31 @@ export default class ComponentBuilder {
             mouse: true,
             keys: true,
             top: 0,
-            scrollbar: {
+            scrollboar: {
                 ch: ' ',
                 inverse: true
             },
-            tags: true //cores e tags no texto
+            // habilita colocar cores e tags no texto
+            tags: true
         }
     }
 
-    setScreen({title}) {
+    setScreen({ title }) {
         this.#screen = blessed.screen({
             smartCSR: true,
             title
         })
 
-        this.#screen.key(['escape','q','C-c'], () => process.exit(0))
+        this.#screen.key(['escape', 'q', 'C-c'], () => process.exit(0))
 
         return this
     }
 
     setLayoutComponent() {
-        this.#layout = blessed.layout({
+        this.#layout = blessed.layout({ 
             parent: this.#screen,
             width: '100%',
-            height: '100%'
+            height: '100%',
         })
 
         return this
@@ -62,35 +63,31 @@ export default class ComponentBuilder {
         })
 
         input.key('enter', onEnterPressed)
-
         this.#input = input
 
         return this
+
     }
 
     setChatComponent() {
-
         this.#chat = blessed.list({
             ...this.#baseComponent(),
             parent: this.#layout,
             align: 'left',
             width: '50%',
             height: '90%',
-            items: ['{bold}Mensseger{/}']
-
+            items: ['{bold}Messenger{/}' ]
         })
+
         return this
     }
-
-
-    setStatusComponents() {
-
+    setStatusComponent() {
         this.#status = blessed.list({
             ...this.#baseComponent(),
             parent: this.#layout,
             width: '25%',
             height: '90%',
-            items: ['{bold} Users on Room{/}']
+            items: ['{bold}Users on Room{/}' ]
         })
         return this
     }
@@ -105,7 +102,6 @@ export default class ComponentBuilder {
                 fg: 'yellow'
             },
             items: ['{bold}Activity Log{/}' ]
-
         })
         return this
     }
